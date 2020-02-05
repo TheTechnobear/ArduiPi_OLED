@@ -42,6 +42,7 @@ struct s_opts
 {
 	int oled;
 	int verbose;
+	int addr;
 } ;
 
 int sleep_divisor = 1 ;
@@ -284,6 +285,7 @@ void usage( char * name)
 	printf("Options are:\n");
 	printf("  --<v>erbose  : speak more to user\n");
 	printf("  --<h>elp\n");
+	printf("  -a address\n");
 	printf("<?> indicates the equivalent short option.\n");
 	printf("Short options are prefixed by \"-\" instead of by \"--\".\n");
 	printf("Example :\n");
@@ -304,6 +306,7 @@ void parse_args(int argc, char *argv[])
 	static struct option longOptions[] =
 	{
 		{"oled"	  , required_argument,0, 'o'},
+		{"addr"	  , required_argument,0, 'a'},
 		{"verbose", no_argument,	  	0, 'v'},
 		{"help"		, no_argument, 			0, 'h'},
 		{0, 0, 0, 0}
@@ -326,6 +329,7 @@ void parse_args(int argc, char *argv[])
 		{
 			case 'v': opts.verbose = true	;	break;
 
+			case 'a': opts.addr = (int) atoi(optarg); break;
 			case 'o':
 				opts.oled = (int) atoi(optarg);
 				
@@ -387,7 +391,7 @@ int main(int argc, char **argv)
 	else
 	{
 		// I2C change parameters to fit to your LCD
-		if ( !display.init(OLED_I2C_RESET,opts.oled) )
+		if ( !display.init(OLED_I2C_RESET,opts.oled,(uint8_t) opts.addr) )
 			exit(EXIT_FAILURE);
 	}
 

@@ -375,7 +375,7 @@ boolean ArduiPi_OLED::init(int8_t DC, int8_t RST, int8_t CS, uint8_t OLED_TYPE)
 }
 
 // initializer for I2C - we only indicate the reset pin and OLED type !
-boolean ArduiPi_OLED::init(int8_t RST, uint8_t OLED_TYPE) 
+boolean ArduiPi_OLED::init(int8_t RST, uint8_t OLED_TYPE,uint8_t addr) 
 {
   dc = cs = -1; // DC and chip Select do not exist in I2C
   rst = RST;
@@ -383,6 +383,7 @@ boolean ArduiPi_OLED::init(int8_t RST, uint8_t OLED_TYPE)
   // Select OLED parameters
   if (!select_oled(OLED_TYPE))
     return false;
+  if(addr>0) _i2c_addr=addr;
 
   // Init & Configure Raspberry PI I2C
   if (bcm2835_i2c_begin()==0)
