@@ -61,7 +61,7 @@ static uint8_t debug = 0;
 //static int i2c_byte_wait_us = 0;
 
 // i2c file descriptor for opeping i2c device
-static int i2c_fd = 0;
+//static int i2c_fd = 0;
 
 // SPI Custom Chip Select Pin
 static int spi_custom_cs = 0;
@@ -817,20 +817,21 @@ int bcm2835_i2c_begin(void)
 	int fd ;
 
 #if BANANAPI
-	if ((fd = open ("/dev/i2c-2", O_RDWR)) < 0)
+	if ((fd = open ("/dev/i2c-2", O_RDWR)) < 0) return fd;
 #else
-	if ((fd = open (bcm2835_get_pi_version() == 1 ? "/dev/i2c-0":"/dev/i2c-1" , O_RDWR)) < 0)
+	if ((fd = open (bcm2835_get_pi_version() == 1 ? "/dev/i2c-0":"/dev/i2c-1" , O_RDWR)) < 0) return fd;
 #endif
-		return fd;
+
+	return fd;
 		
 	// Set i2c descriptor
-	i2c_fd = fd;
+	//i2c_fd = fd;
 
-	return i2c_fd ;
+	//return i2c_fd ;
 		
 }
 
-void bcm2835_i2c_end(void) 
+void bcm2835_i2c_end(int i2c_fd) 
 {
 	// close i2c bus
 	if ( i2c_fd )
@@ -840,7 +841,7 @@ void bcm2835_i2c_end(void)
 	}
 }
 
-int bcm2835_i2c_setSlaveAddress(uint8_t addr)
+int bcm2835_i2c_setSlaveAddress(int i2c_fd,uint8_t addr)
 {
 	if (!i2c_fd)
 		return (-1);
@@ -851,7 +852,7 @@ int bcm2835_i2c_setSlaveAddress(uint8_t addr)
 }
 
 // set I2C clock divider by means of a baudrate number
-void bcm2835_i2c_set_baudrate(uint32_t baudrate)
+void bcm2835_i2c_set_baudrate(int i2c_fd,uint32_t baudrate)
 {
   volatile uint32_t* paddr = bcm2835_bsc1 + BCM2835_BSC_DIV/4;
 	
@@ -864,7 +865,7 @@ void bcm2835_i2c_set_baudrate(uint32_t baudrate)
 }
 
 // Writes an number of bytes to I2C
-int bcm2835_i2c_write(const char * buf, uint32_t len)
+int bcm2835_i2c_write(int i2c_fd,const char * buf, uint32_t len)
 {
 	int reason = -1	;
 	
@@ -890,7 +891,7 @@ int bcm2835_i2c_write(const char * buf, uint32_t len)
 
 // Read an number of bytes from I2C
 // to do
-uint8_t bcm2835_i2c_read(char* buf, uint32_t len)
+uint8_t bcm2835_i2c_read(int i2c_fd,char* buf, uint32_t len)
 {
     uint8_t reason = 0;
 

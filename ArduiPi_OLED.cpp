@@ -165,7 +165,7 @@ inline void ArduiPi_OLED::fastSPIwrite(char* tbuf, uint32_t len) {
   bcm2835_spi_writenb(tbuf, len);
 }
 inline void ArduiPi_OLED::fastI2Cwrite(char* tbuf, uint32_t len) {
-  bcm2835_i2c_write(tbuf, len);
+  bcm2835_i2c_write(i2c_fd,tbuf, len);
 }
 
 // the most basic function, set a single pixel
@@ -391,10 +391,11 @@ boolean ArduiPi_OLED::init(int8_t RST, uint8_t OLED_TYPE,uint8_t addr)
   if(addr>0) _i2c_addr=addr;
 
   // Init & Configure Raspberry PI I2C
-  if (bcm2835_i2c_begin()==0)
+  i2c_fd=bcm2835_i2c_begin();
+  if (i2c_fd==0)
     return false;
     
-  bcm2835_i2c_setSlaveAddress(_i2c_addr) ;
+  bcm2835_i2c_setSlaveAddress(i2c_fd,_i2c_addr) ;
     
   // Set clock to 400 KHz
   // does not seem to work, will check this later
@@ -420,7 +421,7 @@ void ArduiPi_OLED::close(void)
 
     // Release Raspberry I2C
   if ( isI2C() )
-    bcm2835_i2c_end();
+    bcm2835_i2c_end(i2c_fd);
 
   // Release Raspberry I/O control
   bcm2835_close();

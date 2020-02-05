@@ -1112,32 +1112,32 @@ extern "C" {
     /// End I2C operations.
     /// I2C pins P1-03 (SDA) and P1-05 (SCL)
     /// are returned to their default INPUT behaviour.
-    extern void bcm2835_i2c_end(void);
+    extern void bcm2835_i2c_end(int i2c_fd);
 
     /// Sets the I2C slave address.
     /// \param[in] addr The I2C slave address.
-    extern int bcm2835_i2c_setSlaveAddress(uint8_t addr);
+    extern int bcm2835_i2c_setSlaveAddress(int i2c_fd,uint8_t addr);
 
     /// Sets the I2C clock divider by converting the baudrate parameter to
     /// the equivalent I2C clock divider. ( see \sa bcm2835_i2c_setClockDivider)
     /// For the I2C standard 100khz you would set baudrate to 100000
     /// The use of baudrate corresponds to its use in the I2C kernel device
     /// driver. (Of course, bcm2835 has nothing to do with the kernel driver)    
-    extern void bcm2835_i2c_set_baudrate(uint32_t baudrate);
+    extern void bcm2835_i2c_set_baudrate(int i2c_fd,uint32_t baudrate);
 
     /// Transfers any number of bytes to the currently selected I2C slave.
     /// (as previously set by \sa bcm2835_i2c_setSlaveAddress)
     /// \param[in] buf Buffer of bytes to send.
     /// \param[in] len Number of bytes in the buf buffer, and the number of bytes to send.
 		/// \return i2c smbus command return code
-    extern int bcm2835_i2c_write(const char * buf, uint32_t len);
+    extern int bcm2835_i2c_write(int i2c_fd,const char * buf, uint32_t len);
 
     /// Transfers any number of bytes from the currently selected I2C slave.
     /// (as previously set by \sa bcm2835_i2c_setSlaveAddress)
     /// \param[in] buf Buffer of bytes to receive.
     /// \param[in] len Number of bytes in the buf buffer, and the number of bytes to received.
 		/// \return reason see \ref bcm2835I2CReasonCodes
-    extern uint8_t bcm2835_i2c_read(char* buf, uint32_t len);
+    extern uint8_t bcm2835_i2c_read(int i2c_fd,char* buf, uint32_t len);
     
     /// @}
 

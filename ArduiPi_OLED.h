@@ -206,6 +206,8 @@ class ArduiPi_OLED : public Adafruit_GFX
   void fastI2Cwrite(uint8_t c);
   void fastI2Cwrite(char* tbuf, uint32_t len);
   void slowSPIwrite(uint8_t c);
+  
+  int i2c_fd;
 
 
 

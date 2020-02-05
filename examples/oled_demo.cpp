@@ -33,6 +33,9 @@ All text above, and the splash screen must be included in any redistribution
 #define PRG_NAME        "oled_demo"
 #define PRG_VERSION     "1.1"
 
+#define max(a,b) (a>b?a:b)
+#define min(a,b) (a<b?a:b)
+
 // Instantiate the display
 ArduiPi_OLED display;
 
