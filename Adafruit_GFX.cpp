@@ -27,6 +27,8 @@
 #include "./Adafruit_GFX.h"
 #include "./glcdfont.c"
 
+#define swap(a, b) { int16_t t = a; a = b; b = t; }
+
 void Adafruit_GFX::constructor(int16_t w, int16_t h) 
 {
   _width = WIDTH = w;

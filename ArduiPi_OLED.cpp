@@ -37,6 +37,11 @@ All text above, and the splash screen below must be included in any redistributi
 #include "./Adafruit_GFX.h"
 #include "./ArduiPi_OLED.h"
 
+
+// GCC Missing
+#define max(a,b) (a>b?a:b)
+#define min(a,b) (a<b?a:b)
+
   // 8x8 Font ASCII 32 - 127 Implemented
 // Users can modify this to support more characters(glyphs)
 // BasicFont is placed in code memory.
